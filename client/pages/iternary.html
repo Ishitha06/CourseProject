@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbis - Itinerary</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 32px;
+}
+
+.header p {
+    color: #94a3b8;
+}
+
+/* Summary Card */
+.summary {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+}
+
+/* Day Cards */
+.day {
+    background: rgba(255,255,255,0.06);
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+.day:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.1);
+}
+
+.day h3 {
+    margin-bottom: 10px;
+    color: #38bdf8;
+}
+
+/* Buttons */
+.button-group {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Primary Button */
+.btn-primary {
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: #94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <h1>✨ Your Smart Travel Plan</h1>
+        <p>Personalized itinerary generated for you</p>
+    </div>
+
+    <!-- Summary -->
+    <div id="summary" class="summary"></div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading">Generating your plan... 🤖</div>
+
+    <!-- Itinerary -->
+    <div id="itinerary"></div>
+
+    <!-- Buttons -->
+    <div class="button-group">
+        <button class="btn btn-secondary" onclick="goBack()">← Edit Preferences</button>
+        <button class="btn btn-primary" onclick="regenerate()">🔄 Regenerate Plan</button>
+    </div>
+
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("travelData"));
+
+if(!data){
+    document.getElementById("loading").innerHTML = "No data found. Go back and try again.";
+} else {
+
+    // Summary Section
+    document.getElementById("summary").innerHTML = `
+        <h2>${data.destination}</h2>
+        <p>${data.days} Days • ₹${data.budget}/day • ${data.vibe}</p>
+    `;
+
+    function generatePlan(data){
+        let output = "";
+
+        for(let i = 1; i <= data.days; i++){
+
+            let activity = "";
+            if(data.vibe === "Adventure"){
+                activity = "Trekking, water sports, adventure parks";
+            } else if(data.vibe === "Culture"){
+                activity = "Museums, temples, historical sites";
+            } else {
+                activity = "Beaches, cafes, relaxation spots";
+            }
+
+            let food = "";
+            if(data.food === "Vegetarian"){
+                food = "Try vegetarian local meals";
+            } else if(data.food === "Vegan"){
+                food = "Visit vegan-friendly cafes";
+            } else {
+                food = "Enjoy local cuisine";
+            }
+
+            output += `
+            <div class="day">
+                <h3>Day ${i}</h3>
+                <p>📍 ${data.destination}</p>
+                <p>🏃 ${activity}</p>
+                <p>🍽 ${food}</p>
+                <p>💰 ₹${data.budget} budget</p>
+            </div>
+            `;
+        }
+
+        return output;
+    }
+
+    // Simulate AI delay
+    setTimeout(() => {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("itinerary").innerHTML = generatePlan(data);
+    }, 1200);
+}
+
+// Buttons
+function goBack(){
+    window.location.href = "preferences.html";
+}
+
+function regenerate(){
+    location.reload();
+}
+</script>
+
+</body>
+</html>
