@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbis - Preferences</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+}
+
+/* Container */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+/* Title */
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 18px;
+}
+
+/* Labels */
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #cbd5f5;
+}
+
+/* Inputs */
+select {
+    background-color: #1e293b;
+    color: white;
+}
+
+option {
+    background-color: #1e293b;
+    color: white;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+/* Focus effect */
+input:focus, select:focus {
+    border: 1px solid #38bdf8;
+    background: rgba(255,255,255,0.12);
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+/* Result box */
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+}
+
+/* Next button hidden initially */
+#nextBtn {
+    display: none;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Plan Your Trip ✈️</h1>
+
+<form id="form">
+
+    <div class="form-group">
+        <label>Destination (City/Country)</label>
+        <input type="text" id="destination" placeholder="e.g. Goa, India" required>
+    </div>
+
+    <div class="form-group">
+        <label>Trip Duration (Days)</label>
+        <input type="number" id="days" min="1" placeholder="Enter number of days" required>
+    </div>
+
+    <div class="form-group">
+        <label>Travel Pace</label>
+        <select id="pace" required>
+            <option value="">Select pace</option>
+            <option>Relaxed</option>
+            <option>Moderate</option>
+            <option>Fast</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Budget Per Day (₹)</label>
+        <input type="number" id="budget" placeholder="e.g. 3000" required>
+    </div>
+
+    <div class="form-group">
+        <label>Trip Vibe</label>
+        <select id="vibe" required>
+            <option value="">Select vibe</option>
+            <option>Adventure</option>
+            <option>Culture</option>
+            <option>Relaxation</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Food Preference</label>
+        <select id="food" required>
+            <option value="">Select food type</option>
+            <option>Vegetarian</option>
+            <option>Non-Vegetarian</option>
+            <option>Vegan</option>
+        </select>
+    </div>
+
+    <button type="submit">Calculate Budget</button>
+
+</form>
+
+<div id="result" class="result" style="display:none;"></div>
+
+<button id="nextBtn">Generate Itinerary 🚀</button>
+
+</div>
+
+<script>
+let travelData = {};
+
+document.getElementById("form").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let destination = document.getElementById("destination").value;
+    let days = parseInt(document.getElementById("days").value);
+    let pace = document.getElementById("pace").value;
+    let budget = parseInt(document.getElementById("budget").value);
+    let vibe = document.getElementById("vibe").value;
+    let food = document.getElementById("food").value;
+
+    let total = budget * days;
+
+    // Save data
+    travelData = { destination, days, pace, budget, vibe, food, total };
+    localStorage.setItem("travelData", JSON.stringify(travelData));
+
+    // Show result
+    let resultDiv = document.getElementById("result");
+    resultDiv.style.display = "block";
+
+    resultDiv.innerHTML = `
+        <h3>Estimated Budget</h3>
+        <p><strong>Per Day:</strong> ₹${budget}</p>
+        <p><strong>Total Cost:</strong> ₹${total}</p>
+    `;
+
+    document.getElementById("nextBtn").style.display = "block";
+});
+
+// Redirect
+document.getElementById("nextBtn").addEventListener("click", function(){
+    window.location.href = "itinerary.html";
+});
+</script>
+
+</body>
+</html>
