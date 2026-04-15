@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbis - Profile</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+}
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 25px;
+}
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.header h1 {
+    font-size: 30px;
+}
+.header p {
+    color: #94a3b8;
+}
+.profile-card {
+    background: rgba(255,255,255,0.05);
+    padding: 25px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+}
+.input-group {
+    margin-bottom: 15px;
+}
+.input-group label {
+    font-size: 14px;
+    color: #cbd5f5;
+    display: block;
+    margin-bottom: 5px;
+}
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+.input-group input:focus,
+.input-group select:focus {
+    background: rgba(255,255,255,0.15);
+}
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+.btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    color: white;
+}
+.btn-primary:hover {
+    transform: scale(1.05);
+}
+.btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1> Your Profile</h1>
+        <p>Manage your travel preferences</p>
+    </div>
+
+    <div class="profile-card">
+        <form id="profileForm">
+
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="name" required>
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Age</label>
+                <input type="number" id="age" min="10" max="100">
+            </div>
+
+            <div class="input-group">
+                <label>Place</label>
+                <input type="text" id="place">
+            </div>
+            <div class="input-group">
+               <label>Address</label>
+               <input type="text" id="address" placeholder="Street, Area, City" required>
+               </div>
+            <div class="input-group">
+               <label>Phone number</label>
+               <input type="text" id="ph" placeholder="+91 987654321" required>
+               </div>
+
+            <div class="input-group">
+                <label>Travel Preference</label>
+                <select id="preference">
+                    <option>Adventure</option>
+                    <option>Culture</option>
+                    <option>Relaxation</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">💾 Save</button>
+                <button type="button" class="btn btn-secondary" onclick="loadProfile()">↺ Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    let user = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        age: document.getElementById("age").value,
+        place: document.getElementById("place").value,
+        address: document.getElementById("address").value,
+        address: document.getElementById("ph").value,
+        preference: document.getElementById("preference").value
+    };
+
+    localStorage.setItem("userProfile", JSON.stringify(user));
+
+    alert("Profile saved successfully! ✅");
+
+loadProfile();
+</script>
+</body>
+</html>
